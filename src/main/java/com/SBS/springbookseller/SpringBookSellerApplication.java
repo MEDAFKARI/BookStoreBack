@@ -39,9 +39,6 @@ public class SpringBookSellerApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-//			for (int i = 0; i < 20; i++) {
-//				Book book = generateRandomBook();
-//				bookService.saveBook(book);
-//			}
+//			w2
 	}
 }

@@ -1,6 +1,7 @@
 package com.SBS.springbookseller.Service;
 
 import com.SBS.springbookseller.DAO.entities.Book;
+import com.SBS.springbookseller.DAO.entities.Cart;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -14,4 +15,9 @@ public interface BookService {
     Book deleteBook(Book book);
     Book deleteBook(Long IdBook);
 
+    Cart AddToCart(Long IdBook, Long userId);
+
+    List<Book> getCart(Long userId);
+
+    List<Book> deleteBookFromCart(Long bookId, Long userId);
 }

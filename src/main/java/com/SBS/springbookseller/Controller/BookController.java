@@ -42,6 +42,23 @@ public class BookController {
         return new ResponseEntity<>(bookService.updateBook(book),HttpStatus.OK);
     }
 
+    @GetMapping("/Cart/{id}")
+    ResponseEntity<?> Cart(@PathVariable("id") Long userId){
+        return new ResponseEntity<>(bookService.getCart(userId), HttpStatus.CREATED);
+    }
+
+
+    @PostMapping("/addToCart/{id}")
+    ResponseEntity<?> addToCart(@PathVariable("id")Long id,@RequestBody Long userId){
+        return new ResponseEntity<>(bookService.AddToCart(id, userId), HttpStatus.CREATED);
+    }
+
+
+    @DeleteMapping("/cart/{userId}/{bookId}")
+    ResponseEntity<?> deleteFromCart(@PathVariable("bookId") Long bookId,@PathVariable("userId") Long userId){
+        return new ResponseEntity<>(bookService.deleteBookFromCart(bookId,userId), HttpStatus.OK);
+    }
+
 
 
 

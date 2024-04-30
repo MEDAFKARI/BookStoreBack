@@ -29,7 +29,6 @@ public class Book {
     private Double price;
     private String imageUrl;
     @Lob
-
     private byte[] image;
 
 }

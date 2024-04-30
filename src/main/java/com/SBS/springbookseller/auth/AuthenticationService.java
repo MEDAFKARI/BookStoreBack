@@ -31,9 +31,9 @@ public class AuthenticationService {
                 .role(Role.USER)
                 .CreatedAt(new Date())
                 .build();
-        userRepository.save(user);
+        var returnedUser = userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder().token(jwtToken).build();
+        return AuthenticationResponse.builder().Id(user.getId()).email(user.getEmail()).username(user.getName()).role(user.getRole()).token(jwtToken).build();
     }
 
     public AuthenticationResponse authenticate(AuthRequest request) {
@@ -45,6 +45,6 @@ public class AuthenticationService {
         );
         var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
         var JwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder().username(user.getName()).role(user.getRole()).token(JwtToken).build();
+        return AuthenticationResponse.builder().Id(user.getId()).email(user.getEmail()).username(user.getName()).role(user.getRole()).token(JwtToken).build();
     }
 }
