@@ -7,6 +7,7 @@ import com.SBS.springbookseller.DAO.entities.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -37,13 +38,13 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthRequest request) {
+        var user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UsernameNotFoundException("User not found!!"));
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getPassword()
                 )
         );
-        var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
         var JwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder().Id(user.getId()).email(user.getEmail()).username(user.getName()).role(user.getRole()).token(JwtToken).build();
     }

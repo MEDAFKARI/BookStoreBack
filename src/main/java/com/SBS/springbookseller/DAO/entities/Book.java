@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "books")
@@ -27,8 +28,6 @@ public class Book {
     private String author;
     @NonNull
     private Double price;
-    private String imageUrl;
-    @Lob
-    private byte[] image;
+    private List<String> imageUrl;
 
 }

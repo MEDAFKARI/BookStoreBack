@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -27,10 +29,11 @@ public class BookServiceImpl implements BookService {
     private UserRepository userRepository;
 
 
+
     @Override
     public Page<Book> searchByTitle(String word, int size, int page) {
 
-        return bookRepository.findByTitleContaining(word, PageRequest.of(page, size));
+        return bookRepository.findByTitleContainingIgnoreCase(word, PageRequest.of(page, size));
     }
 
     @Override
@@ -40,6 +43,12 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book saveBook(Book book) {
+        return bookRepository.save(book);
+    }
+
+
+    @Override
+    public Book saveBookWithImage(Book book) {
         return bookRepository.save(book);
     }
 
@@ -58,10 +67,6 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book deleteBook(Long IdBook) {
         Book book1 = bookRepository.findById(IdBook).orElse(null);
-        PurchaseHistory purchaseHistory = purchaseHstryRepository.findByBook(book1);
-        if (purchaseHistory != null) {
-            purchaseHistory.setBook(null);
-        }
         bookRepository.deleteById(IdBook);
         return book1;
     }
@@ -80,8 +85,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> getCart(Long userId) {
-        return cartRepository.findByUserId(userId).get().getBooks();
+    public Cart getCart(Long userId) {
+        return cartRepository.findByUserId(userId).get();
     }
 
     @Override
@@ -90,6 +95,8 @@ public class BookServiceImpl implements BookService {
         cart.getBooks().remove(bookRepository.findById(bookid).get());
         return cartRepository.save(cart).getBooks();
     }
+
+
 
     @Override
     public List<Book> getAllBooksByAuthor(String Author) {

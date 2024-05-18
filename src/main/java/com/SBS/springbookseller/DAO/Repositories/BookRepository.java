@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface BookRepository extends JpaRepository<Book,Long> {
 
-    Page<Book> findByTitleContaining(String word,Pageable pageable);
+    Page<Book> findByTitleContainingIgnoreCase(String word,Pageable pageable);
 
     List<Book> findAllByAuthor(String author);
 

@@ -4,10 +4,11 @@ import com.SBS.springbookseller.DAO.Repositories.UserRepository;
 import com.SBS.springbookseller.DAO.entities.Role;
 import com.SBS.springbookseller.DAO.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,8 +18,8 @@ public class UserServiceImpl implements UserService{
     private UserRepository userRepository;
 
     @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public Page<User> getAllUsers(int page, int size) {
+        return userRepository.findAll(PageRequest.of(page,size));
     }
     @Override
     public User saveUser(User user){

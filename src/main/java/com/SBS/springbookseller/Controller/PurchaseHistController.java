@@ -17,19 +17,27 @@ public class PurchaseHistController {
     PurchaseHstryService purchaseHstryService;
 
     @PostMapping
-    ResponseEntity<?> savePurchase(@RequestBody PurchaseHistory purchaseHistory){
-        return new ResponseEntity<>(purchaseHstryService.savePurchaseHistory(purchaseHistory), HttpStatus.CREATED);
+    ResponseEntity<?> savePurchase(@RequestParam("cartId") Long cartId ,
+                                   @RequestBody Long userId){
+        PurchaseHistory purchaseHistory = new PurchaseHistory();
+        System.out.println("---------------------------------------------");
+        System.out.println(cartId);
+        System.out.println("---------------------------------------------");
+        return new ResponseEntity<>(purchaseHstryService.savePurchaseHistory(purchaseHistory, cartId,userId), HttpStatus.CREATED);
     }
 
     @GetMapping
-    ResponseEntity<?> getAllPurchase(){
-        return new ResponseEntity<>(purchaseHstryService.findAllPurchase(), HttpStatus.OK);
+    ResponseEntity<?> getAllPurchase(@RequestParam(name = "size" , defaultValue ="2")int size,
+                                     @RequestParam(name = "page", defaultValue ="0") int page){
+        return new ResponseEntity<>(purchaseHstryService.findAllPurchase(size,page), HttpStatus.OK);
     }
 
 
-    @GetMapping("/user/{username}")
-    ResponseEntity<?> getAllPurchase(@PathVariable("username")String username){
-        return new ResponseEntity<>(purchaseHstryService.findPurchasedItemByUser(username),HttpStatus.OK);
+    @GetMapping("/user/{Id}")
+    ResponseEntity<?> getAllPurchase(@PathVariable("Id")Long id,
+                                     @RequestParam(name = "size" , defaultValue ="7")int size,
+                                     @RequestParam(name = "page", defaultValue ="0") int page){
+        return new ResponseEntity<>(purchaseHstryService.findPurchasedItemByUserId(id, page,size),HttpStatus.OK);
     }
 
 

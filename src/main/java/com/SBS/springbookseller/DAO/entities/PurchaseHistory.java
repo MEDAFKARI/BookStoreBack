@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "purchase_history")
@@ -21,7 +22,7 @@ public class PurchaseHistory {
     private User user;
     @NonNull
     private Double price;
-    @OneToOne
-    private Book book;
+    @ManyToMany
+    private List<Book> books;
     private Date purchaseDate;
 }
