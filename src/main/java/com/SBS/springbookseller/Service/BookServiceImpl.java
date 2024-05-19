@@ -67,6 +67,10 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book deleteBook(Long IdBook) {
         Book book1 = bookRepository.findById(IdBook).orElse(null);
+        List<Cart> carts = cartRepository.findAll();
+        for (Cart c:carts){
+            c.getBooks().remove(book1);
+        }
         bookRepository.deleteById(IdBook);
         return book1;
     }
@@ -75,7 +79,8 @@ public class BookServiceImpl implements BookService {
     public Cart AddToCart(Long IdBook, Long userId) {
         if(cartRepository.findByUserId(userId).isPresent()){
             Cart cart = cartRepository.findByUserId(userId).get();
-            cart.getBooks().add(bookRepository.findById(IdBook).get());
+            Book book= bookRepository.findById(IdBook).get();
+            cart.getBooks().add(book);
             return cartRepository.save(cart);
         }
         else {
