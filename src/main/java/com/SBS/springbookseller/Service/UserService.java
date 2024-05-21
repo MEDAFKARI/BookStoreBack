@@ -17,5 +17,6 @@ public interface UserService {
     Optional<User> MakeAdmin(User user);
     User deleteUser(User user);
     User deleteUser(Long userId);
+    User UpdateEmail(Long Id, String email);
 
 }

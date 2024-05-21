@@ -23,7 +23,6 @@ public class User implements UserDetails {
     @GeneratedValue
     private Long Id;
     private String username;
-    private String profilePicture;
     private String email;
     private String password;
     private Date CreatedAt;

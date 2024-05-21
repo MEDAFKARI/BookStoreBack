@@ -1,5 +1,6 @@
 package com.SBS.springbookseller.Service;
 
+import com.SBS.springbookseller.DAO.Repositories.CartRepository;
 import com.SBS.springbookseller.DAO.Repositories.UserRepository;
 import com.SBS.springbookseller.DAO.entities.Role;
 import com.SBS.springbookseller.DAO.entities.User;
@@ -16,6 +17,9 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CartRepository cartRepository;
 
     @Override
     public Page<User> getAllUsers(int page, int size) {
@@ -48,8 +52,20 @@ public class UserServiceImpl implements UserService{
     @Override
     public User deleteUser(Long userId) {
         User user1 = userRepository.findById(userId).orElse(null);
+        cartRepository.delete(cartRepository.findByUserId(user1.getId()).get());
         userRepository.deleteById(userId);
         return user1;
+    }
+
+    @Override
+    public User UpdateEmail(Long Id, String email) {
+        if(userRepository.findByEmail(email).isPresent()){
+            throw new RuntimeException("Email Already Exists!");
+        }
+        User user = userRepository.findById(Id).get();
+        user.setEmail(email);
+        System.out.println(user);
+        return  userRepository.save(user);
     }
 
 }
